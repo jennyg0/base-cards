@@ -1,15 +1,15 @@
 import { baseGoerli } from 'viem/chains';
 import { contract } from './ContractSpecification';
-import BuyMeACoffeeABI from './BuyMeACoffee';
+import CardABI from './Card';
 import Custom1155ABI from './Custom1155';
 
 describe('ContractSpecification', () => {
-  it('should have the correct contract specifications for the buyMeACoffee contract', () => {
-    expect(contract.buyMeACoffee).toEqual({
-      abi: BuyMeACoffeeABI,
+  it('should have the correct contract specifications for the Card contract', () => {
+    expect(contract.card).toEqual({
+      abi: CardABI,
       [baseGoerli.id]: {
         chain: baseGoerli,
-        address: '0x1784AAD01B4d05A8bC721DC8903dCbC9E0b20175',
+        address: '0x2E983A1Ba5e8b38AAAeC4B440B9dDcFBf72E15d1',
       },
     });
   });

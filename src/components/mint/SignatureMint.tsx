@@ -11,7 +11,6 @@ import { parseEther } from 'viem';
 import { useCallback, useEffect, useState } from 'react';
 import { contract } from '../../contract/ContractSpecification';
 import useCollectionMetadata from '../../../onchainKit/hooks/useCollectionMetadata';
-import CodeBlock from '../CodeBlock/CodeBlock';
 import { useDebounce } from '../../hooks/useDebounce';
 import useBlockExplorerLink from '../../../onchainKit/hooks/useBlockExplorerLink';
 import NotConnected from './NotConnected';
@@ -211,25 +210,13 @@ export default function SignatureMintDemo() {
           reusing private keys for multiple thing & do not store funds in this wallet. Also, you can
           use popular library like Ethers to
         </p>
-        <CodeBlock code={codeBlock1} />
-        2. Next add that wallet to the contracts project environment file
-        <CodeBlock code={codeBlock2} />
-        <h4 className="mb-6 mt-6 text-xl font-normal text-white">Step 2 : Deploy Contract</h4>
-        <p className="my-4 text-base font-normal text-zinc-400">
-          Deploy the contract to base-sepolia
-        </p>
-        <CodeBlock
-          code="
-          forge script script/SignatureMintERC721.s.sol:SignatureMintERC721Script --broadcast --verify --rpc-url ${RPC_URL} --etherscan-api-key ${BLOCK_EXPLORER_API_KEY}
-        "
-        />
+
         <h4 className="mb-6 mt-6 text-xl font-normal text-white">
           Step 3 : Add Private Key to backend
         </h4>
         <p className="my-4 text-base font-normal text-zinc-400">
           Add your private key to the API backend so you can generate minting signatures.
         </p>
-        <CodeBlock code={codeBlock3} />
       </section>
     </>
   );

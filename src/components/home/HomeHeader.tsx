@@ -1,5 +1,4 @@
 import { clsx } from 'clsx';
-import CodeBlock from '../CodeBlock/CodeBlock';
 import Header from '../header/Header';
 import styles from './Home.module.css';
 
@@ -20,9 +19,6 @@ export default function HomeHeader() {
           Accelerate your web3 creativity with the <br />
           Build Onchain Apps Toolkit.
         </p>
-        <div className={styles.HomeHeaderCta}>
-          <CodeBlock code="$ npx @coinbase/build-onchain-apps@latest create" />
-        </div>
       </div>
       <div className={styles.HomeHeaderWaves}>
         <div className={styles.homeBoatContainer}>

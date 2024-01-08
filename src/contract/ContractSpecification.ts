@@ -1,6 +1,6 @@
 import { Abi, type Chain } from 'viem';
-import { baseGoerli, baseSepolia } from 'viem/chains';
-import BuyMeACoffeeABI from './BuyMeACoffee';
+import { baseGoerli, baseSepolia, localhost } from 'viem/chains';
+import CardABI from './Card';
 import Custom1155ABI from './Custom1155';
 import SignatureMint721 from './SignatureMint721';
 
@@ -19,11 +19,15 @@ export type ContractSpecification = Record<
 >;
 
 export const contract: ContractSpecification = {
-  buyMeACoffee: {
-    abi: BuyMeACoffeeABI,
-    [baseGoerli.id]: {
-      chain: baseGoerli,
-      address: '0x1784AAD01B4d05A8bC721DC8903dCbC9E0b20175',
+  card: {
+    abi: CardABI,
+    [baseSepolia.id]: {
+      chain: baseSepolia,
+      address: '0xCfad54b5d07f81Fd135C273aF463d6b6E09F4c7B',
+    },
+    [localhost.id]: {
+      chain: localhost,
+      address: '0x7ef8E99980Da5bcEDcF7C10f41E55f759F6A174B',
     },
     // more chains for this contract go here
   },

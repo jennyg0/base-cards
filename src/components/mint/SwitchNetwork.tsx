@@ -1,8 +1,8 @@
 import { useSwitchNetwork } from 'wagmi';
-import { baseGoerli } from 'viem/chains';
+import { baseGoerli, localhost } from 'viem/chains';
 import { useCallback } from 'react';
 
-const EXPECTED_CHAIN = baseGoerli;
+const EXPECTED_CHAIN = localhost;
 
 function SwitchNetwork() {
   const { switchNetwork } = useSwitchNetwork({ chainId: EXPECTED_CHAIN.id });

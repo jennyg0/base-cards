@@ -24,7 +24,7 @@ function Menu() {
           passHref
           className="text-center font-robotoMono text-xl font-medium text-white"
         >
-          BUILD ONCHAIN APPS
+          NFTY CARDS
         </NextLink>
 
         <div className="ml-4 flex justify-start md:hidden">
