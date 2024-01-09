@@ -1,6 +1,4 @@
-import { useCallback, useState } from 'react';
-import { ethers } from 'ethers';
-import { baseGoerli, localhost, Chain, baseSepolia } from 'viem/chains';
+import { useCallback, useState, useEffect } from 'react';
 import { parseEther } from 'viem';
 import pinJSONToIPFS from '../../utils/pinJSONtoIPFS';
 import {
@@ -12,6 +10,7 @@ import {
 } from 'wagmi';
 import { contract } from '../../contract/ContractSpecification';
 import NotConnected from '../mint/NotConnected';
+import { EXPECTED_CHAIN } from '../../utils/constants';
 
 type CardType = {
   id: number;
@@ -23,9 +22,7 @@ type SendCardFormProps = {
   selectedCard: CardType | null;
 };
 
-const EXPECTED_CHAIN = localhost;
-
-const cardNFTAddress = contract.card[localhost.id].address;
+const cardNFTAddress = contract.card[EXPECTED_CHAIN.id].address;
 const cardNFTABI = contract.card.abi;
 
 const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
@@ -34,9 +31,15 @@ const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
   const [value, setValue] = useState('');
   const [signature, setSignature] = useState('');
   const [sigFailure, setSigFailure] = useState(false);
+
   const { isConnected, address } = useAccount();
   const { chain } = useNetwork();
   const onCorrectNetwork = chain?.id === EXPECTED_CHAIN.id;
+
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const createMetadataJson = (selectedCard: CardType, message: string) => {
     return {
@@ -189,43 +192,44 @@ const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
               />
             </div>
             <div className="mt-6 flex justify-end gap-3">
-              {isConnected ? (
-                <button
-                  type="submit"
-                  className="flex items-center justify-center rounded-[50px] bg-[#cb59ab] px-6 py-2"
-                  disabled={loadingTransaction}
-                >
-                  {loadingTransaction ? (
-                    <>
-                      <svg
-                        className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 0116 0H4z"
-                        ></path>
-                      </svg>
-                      Sending...
-                    </>
-                  ) : (
-                    'Send'
-                  )}
-                </button>
-              ) : (
-                <NotConnected />
-              )}
+              {isClient &&
+                (isConnected ? (
+                  <button
+                    type="submit"
+                    className="flex items-center justify-center rounded-[50px] bg-[#cb59ab] px-6 py-2"
+                    disabled={loadingTransaction}
+                  >
+                    {loadingTransaction ? (
+                      <>
+                        <svg
+                          className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 0116 0H4z"
+                          ></path>
+                        </svg>
+                        Sending...
+                      </>
+                    ) : (
+                      'Send'
+                    )}
+                  </button>
+                ) : (
+                  <NotConnected />
+                ))}
             </div>
           </div>
         </form>

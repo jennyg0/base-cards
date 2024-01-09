@@ -6,7 +6,7 @@ import {
   useNetwork,
   usePrepareContractWrite,
 } from 'wagmi';
-import { baseGoerli, Chain } from 'viem/chains';
+import { Chain } from 'viem/chains';
 import { parseEther } from 'viem';
 import { useCallback, useEffect, useState } from 'react';
 import { contract } from '../../contract/ContractSpecification';
@@ -15,8 +15,7 @@ import { useDebounce } from '../../hooks/useDebounce';
 import useBlockExplorerLink from '../../../onchainKit/hooks/useBlockExplorerLink';
 import NotConnected from './NotConnected';
 import SwitchNetwork from './SwitchNetwork';
-
-const EXPECTED_CHAIN = baseGoerli;
+import { EXPECTED_CHAIN } from '../../utils/constants';
 
 /**
  * Use constants for codeblocks until the component will respect newlines.
@@ -46,7 +45,7 @@ export default function SignatureMintDemo() {
    */
   const debouncedSigValue = useDebounce<string>(signature, 500);
   const onCorrectNetwork = chain?.id === EXPECTED_CHAIN.id;
-  const contractAddress = contract.signatureMint721[baseGoerli.id].address;
+  const contractAddress = contract.signatureMint721[EXPECTED_CHAIN.id].address;
   const explorerLink = useBlockExplorerLink(chain as Chain, contractAddress);
   const [usedFreeMint, setUsedFreeMint] = useState(false);
 
@@ -87,7 +86,7 @@ export default function SignatureMintDemo() {
    */
   const { config: freeMintConfig } = usePrepareContractWrite({
     // TODO: the chainId should be dynamic
-    address: contract.signatureMint721[baseGoerli.id].address,
+    address: contract.signatureMint721[EXPECTED_CHAIN.id].address,
     abi: contract.signatureMint721.abi,
     functionName: 'freeMint',
     args: address ? [address, debouncedSigValue] : undefined,
@@ -100,7 +99,7 @@ export default function SignatureMintDemo() {
    */
   const { config: paidMintConfig } = usePrepareContractWrite({
     // TODO: the chainId should be dynamic
-    address: contract.signatureMint721[baseGoerli.id].address,
+    address: contract.signatureMint721[EXPECTED_CHAIN.id].address,
     abi: contract.signatureMint721.abi,
     functionName: 'mint',
     args: [address],
@@ -110,7 +109,7 @@ export default function SignatureMintDemo() {
 
   const usedFreeMintResponse = useContractRead({
     // TODO: the chainId should be dynamic
-    address: contract.signatureMint721[baseGoerli.id].address,
+    address: contract.signatureMint721[EXPECTED_CHAIN.id].address,
     abi: contract.signatureMint721.abi,
     functionName: 'usedFreeMints',
     args: [address],

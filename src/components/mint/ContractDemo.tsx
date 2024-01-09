@@ -1,19 +1,17 @@
 import Image from 'next/image';
 import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
-import { baseGoerli } from 'viem/chains';
 import { contract } from '../../contract/ContractSpecification';
 import useCollectionMetadata from '../../../onchainKit/hooks/useCollectionMetadata';
 import NotConnected from './NotConnected';
 import SwitchNetwork from './SwitchNetwork';
-
-const EXPECTED_CHAIN = baseGoerli;
+import { EXPECTED_CHAIN } from '../../utils/constants';
 
 export default function MintContractDemo() {
   const { isConnected, address } = useAccount();
   const { chain } = useNetwork();
 
   const onCorrectNetwork = chain?.id === EXPECTED_CHAIN.id;
-  const chainContract = contract.custom1155[baseGoerli.id];
+  const chainContract = contract.custom1155[EXPECTED_CHAIN.id];
   const { collectionName, description, imageAddress, isLoading } = useCollectionMetadata(
     onCorrectNetwork,
     chainContract.address,
