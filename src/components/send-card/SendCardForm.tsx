@@ -8,9 +8,9 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from 'wagmi';
-import { contract } from '../../contract/ContractSpecification';
-import NotConnected from '../mint/NotConnected';
-import { EXPECTED_CHAIN } from '../../utils/constants';
+
+import NotConnected from './NotConnected';
+import { CARD_CONTRACT_ABI, CARD_CONTRACT_ADDRESS, EXPECTED_CHAIN } from '../../utils/constants';
 
 type CardType = {
   id: number;
@@ -22,13 +22,10 @@ type SendCardFormProps = {
   selectedCard: CardType | null;
 };
 
-const cardNFTAddress = contract.card[EXPECTED_CHAIN.id].address;
-const cardNFTABI = contract.card.abi;
-
 const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
   const [recipient, setRecipient] = useState('');
   const [message, setMessage] = useState('');
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState<string>('');
   const [signature, setSignature] = useState('');
   const [sigFailure, setSigFailure] = useState(false);
 
@@ -56,12 +53,12 @@ const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
   };
 
   const { config } = usePrepareContractWrite({
-    address: cardNFTAddress,
-    abi: cardNFTABI,
+    address: CARD_CONTRACT_ADDRESS,
+    abi: CARD_CONTRACT_ABI,
     functionName: 'mintCard',
     args: [recipient, message],
     enabled: recipient !== '' && message !== '',
-    value: parseEther(value ? value : '0'),
+    value: parseEther(value.toString()),
     onSuccess(data) {
       console.log('Success prepare mintCard', data);
     },
@@ -129,10 +126,12 @@ const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
     [setMessage],
   );
 
-  // TODO: make sure only values can be inputed
   const handleValueChange = useCallback(
-    (event: { target: { value: React.SetStateAction<string> } }) => {
-      setValue(event.target.value.toString);
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = event.target.value;
+      if (/^\d*\.?\d*$/.test(newValue) || newValue === '') {
+        setValue(newValue);
+      }
     },
     [setValue],
   );
@@ -183,7 +182,7 @@ const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
                 Gift Amount in ETH
               </label>
               <input
-                type="number"
+                type="text"
                 value={value}
                 id="value"
                 className="block w-full rounded-[50px] bg-white bg-opacity-10 p-3 text-sm text-white placeholder-white backdrop-blur-2xl"
