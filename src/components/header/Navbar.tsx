@@ -20,7 +20,7 @@ export function NavbarLink({
       <NextLink
         href={href}
         className={clsx(
-          'px-[16px] py-[5px] text-center font-robotoMono text-base font-normal text-white',
+          'px-[16px] py-[5px] text-center font-robotoMono text-base font-normal',
           active ? 'rounded-[50px] bg-white bg-opacity-90 text-neutral-800' : '',
         )}
         target={target}

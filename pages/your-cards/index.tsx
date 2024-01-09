@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import Header from '../../src/components/header/Header';
 import { TitleAndMetaTags } from '../../src/components/TitleAndMetaTags';
+import NFTGallery from '../../src/components/send-card/NFTGallery';
+import styles from '../send-card/SendCard.module.css';
 
 type CardType = {
   id: number;
@@ -17,7 +19,10 @@ export default function SendCardPage() {
         image="themes.png"
       />
       <main className="container mx-auto flex flex-col">
-        <Header />
+        <div className={styles.BackgroundGradient}>
+          <Header />
+          <NFTGallery />
+        </div>
       </main>
     </>
   );

@@ -10,7 +10,7 @@
   top: 0;
   left: 0;
   width: 100vw;
-  height: var(--home-header-height);
+  height: 100vh;
   background: linear-gradient(180deg, #ff5800 0%, #cb59ab 100%, #ea36b8 100%);
 }
 
