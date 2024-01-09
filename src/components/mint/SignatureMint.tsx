@@ -13,8 +13,8 @@ import { contract } from '../../contract/ContractSpecification';
 import useCollectionMetadata from '../../../onchainKit/hooks/useCollectionMetadata';
 import { useDebounce } from '../../hooks/useDebounce';
 import useBlockExplorerLink from '../../../onchainKit/hooks/useBlockExplorerLink';
-import NotConnected from './NotConnected';
-import SwitchNetwork from './SwitchNetwork';
+import NotConnected from '../send-card/NotConnected';
+import SwitchNetwork from '../send-card/SwitchNetwork';
 import { EXPECTED_CHAIN } from '../../utils/constants';
 
 /**
