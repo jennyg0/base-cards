@@ -8,7 +8,6 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from 'wagmi';
-
 import NotConnected from './NotConnected';
 import { CARD_CONTRACT_ABI, CARD_CONTRACT_ADDRESS, EXPECTED_CHAIN } from '../../utils/constants';
 
@@ -26,6 +25,7 @@ const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
   const [recipient, setRecipient] = useState('');
   const [message, setMessage] = useState('');
   const [value, setValue] = useState<string>('');
+  const [tokenURI, setTokenURI] = useState('');
   const [signature, setSignature] = useState('');
   const [sigFailure, setSigFailure] = useState(false);
 
@@ -38,11 +38,21 @@ const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
     setIsClient(true);
   }, []);
 
+  const safelyParseEther = (value: string) => {
+    try {
+      return value ? parseEther(value) : undefined;
+    } catch {
+      console.error('Invalid ETH value');
+      return undefined;
+    }
+  };
+
   const createMetadataJson = (selectedCard: CardType, message: string) => {
     return {
-      name: `Christmas Card #${selectedCard.id}`,
-      description: 'A festive Christmas card with a personal message!',
+      name: `NFTy Card #${selectedCard.id}`,
+      description: 'A nfty greeting card with a personal message!',
       image: selectedCard.image,
+      sender: address,
       attributes: [
         {
           trait_type: 'Message',
@@ -52,42 +62,38 @@ const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
     };
   };
 
-  const { config } = usePrepareContractWrite({
-    address: CARD_CONTRACT_ADDRESS,
-    abi: CARD_CONTRACT_ABI,
-    functionName: 'mintCard',
-    args: [recipient, message],
-    enabled: recipient !== '' && message !== '',
-    value: parseEther(value.toString()),
-    onSuccess(data) {
-      console.log('Success prepare mintCard', data);
-    },
-  });
+  const handleMintAndSend = async (event: React.FormEvent) => {
+    event.preventDefault();
 
-  const { write: mintCard, data: dataMintCard } = useContractWrite({
-    ...config,
-    onSuccess(data) {
-      console.log('Success write mintCard', data);
-    },
-  });
-
-  const handleMintAndSend = async () => {
-    if (!recipient || !message || !selectedCard) {
-      alert('Please fill in all fields');
+    if (!recipient || !selectedCard) {
+      alert('Please fill in all required fields');
       return;
     }
 
     const metadata = createMetadataJson(selectedCard, message);
     const tokenURI = await pinJSONToIPFS(metadata);
 
-    // try {
-    //   const tx = await cardNFT.mintCard(tokenURI, recipient);
-    //   await tx.wait();
-    //   console.log('NFT minted and sent to recipient:', recipient);
-    // } catch (error) {
-    //   console.error('Error minting and sending NFT:', error);
-    // }
+    const mintConfig = {
+      address: CARD_CONTRACT_ADDRESS,
+      abi: CARD_CONTRACT_ABI,
+      functionName: 'mintCard',
+      args: [tokenURI, recipient],
+      value: safelyParseEther(value),
+    };
+
+    try {
+      const result = await mintCard({ ...mintConfig });
+      console.log('Transaction result:', result);
+    } catch (error) {
+      console.error('Error in transaction:', error);
+    }
   };
+
+  const { write: mintCard, data: dataMintCard } = useContractWrite({
+    address: CARD_CONTRACT_ADDRESS,
+    abi: CARD_CONTRACT_ABI,
+    functionName: 'mintCard',
+  });
 
   const { isLoading: loadingTransaction } = useWaitForTransaction({
     hash: dataMintCard?.hash,
@@ -103,14 +109,6 @@ const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
       setMessage('');
     },
   });
-
-  const handleSubmit = useCallback(
-    (event: { preventDefault: () => void }) => {
-      event.preventDefault();
-      mintCard?.();
-    },
-    [mintCard],
-  );
 
   const handleNameChange = useCallback(
     (event: { target: { value: React.SetStateAction<string> } }) => {

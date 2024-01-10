@@ -6,8 +6,6 @@ import '@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol';
 import '@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol';
 
 contract Cards is ERC721, ERC721Enumerable, ERC721URIStorage {
-  error CallerIsNotOwner();
-
   uint256 private tokenIdCount;
 
   constructor() ERC721('NftyCards', 'NFTY') {}
