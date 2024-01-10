@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { CARD_CONTRACT_ADDRESS, CARD_CONTRACT_ABI } from '../../utils/constants';
 import { useAccount, useContractRead } from 'wagmi';
 import NotConnected from './NotConnected';
+import styles from './NFTGallery.module.css';
 
 type NFTMetadata = {
   tokenId: string;
@@ -9,6 +10,7 @@ type NFTMetadata = {
     name: string;
     description: string;
     image: string;
+    sender: string;
     attributes: Array<{
       trait_type: string;
       value: string;
@@ -106,13 +108,21 @@ const NFTGallery = () => {
         <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {nfts ? (
             nfts.map((nft, index) => (
-              <div key={index} className="card card-bordered">
-                <figure>
-                  <img src={nft.metadata.image} alt={`NFT ${index + 1}`} className="rounded-xl" />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title">From: add name here </h2>
-                  <p>{nft.metadata.attributes[0].value}</p>
+              <div key={index} className={`${styles.card}`}>
+                <div className={`${styles.cardInner}`}>
+                  <div className={`${styles.cardFront} rounded-lg bg-white p-4 shadow-lg`}>
+                    <figure>
+                      <img
+                        src={nft.metadata.image}
+                        alt={`NFT ${index + 1}`}
+                        className="rounded-xl"
+                      />
+                    </figure>
+                  </div>
+                  <div className={`${styles.cardBack} rounded-lg bg-blue-100 p-4 shadow-lg`}>
+                    <h2 className="card-title">From: {nft.metadata.sender}</h2>
+                    <p>{nft.metadata.attributes[0].value}</p>
+                  </div>
                 </div>
               </div>
             ))
