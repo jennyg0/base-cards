@@ -25,9 +25,9 @@ const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
   const [recipient, setRecipient] = useState('');
   const [message, setMessage] = useState('');
   const [value, setValue] = useState<string>('');
-  const [tokenURI, setTokenURI] = useState('');
   const [signature, setSignature] = useState('');
   const [sigFailure, setSigFailure] = useState(false);
+  const [loadingTransaction, setLoadingTransaction] = useState(false);
 
   const { isConnected, address } = useAccount();
   const { chain } = useNetwork();
@@ -74,18 +74,17 @@ const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
     const tokenURI = await pinJSONToIPFS(metadata);
 
     const mintConfig = {
-      address: CARD_CONTRACT_ADDRESS,
-      abi: CARD_CONTRACT_ABI,
-      functionName: 'mintCard',
       args: [tokenURI, recipient],
       value: safelyParseEther(value),
     };
 
     try {
+      setLoadingTransaction(true);
       const result = await mintCard({ ...mintConfig });
       console.log('Transaction result:', result);
     } catch (error) {
       console.error('Error in transaction:', error);
+      setLoadingTransaction(false);
     }
   };
 
@@ -95,16 +94,18 @@ const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
     functionName: 'mintCard',
   });
 
-  const { isLoading: loadingTransaction } = useWaitForTransaction({
+  const { isLoading: transactionInProgress } = useWaitForTransaction({
     hash: dataMintCard?.hash,
     enabled: !!dataMintCard,
     onSuccess() {
       // onComplete();
+      setLoadingTransaction(false);
       setRecipient('');
       setMessage('');
     },
     onError() {
       // onComplete();
+      setLoadingTransaction(false);
       setRecipient('');
       setMessage('');
     },
@@ -193,8 +194,8 @@ const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
                 (isConnected ? (
                   <button
                     type="submit"
-                    className="flex items-center justify-center rounded-[50px] bg-[#cb59ab] px-6 py-2"
-                    disabled={loadingTransaction}
+                    className="flex items-center justify-center rounded-[50px] bg-white px-6 py-2 text-neutral-900"
+                    disabled={loadingTransaction || !selectedCard || !recipient}
                   >
                     {loadingTransaction ? (
                       <>

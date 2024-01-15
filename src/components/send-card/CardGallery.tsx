@@ -5,19 +5,19 @@ const cards = [
     id: 1,
     title: 'Card 1',
     image:
-      'https://crimson-xeric-thrush-851.mypinata.cloud/ipfs/QmWJt9hgWXQiukVpwXKhken4YnP5pmJHpeJWDGhm5V2MDb',
+      'https://crimson-xeric-thrush-851.mypinata.cloud/ipfs/QmUvkxwb77jsHCiSAT45mYPbGAY3RS5vQqmwcaFaFCYG3A',
   },
   {
     id: 2,
     title: 'Card 2',
     image:
-      'https://crimson-xeric-thrush-851.mypinata.cloud/ipfs/QmaQb8rkCXZHwcYf3sCpS3T27cT9eE7DG1E8Noxc6owZ8Z',
+      'https://crimson-xeric-thrush-851.mypinata.cloud/ipfs/QmUGCJMEgtQngLvFcw5qWDKASZCRV8wHvRwokfcwmG338V',
   },
   {
     id: 3,
     title: 'Card 3',
     image:
-      'https://crimson-xeric-thrush-851.mypinata.cloud/ipfs/QmUGSF6Dkc5yhzpVu48G7F6VzHjnajd5hZzXmh4DgPyYtM',
+      'https://crimson-xeric-thrush-851.mypinata.cloud/ipfs/QmdsETRPZQYRYjeqDyMjtVdm9XX8VJ2gJ6TLghy15J8iVd',
   },
   {
     id: 4,

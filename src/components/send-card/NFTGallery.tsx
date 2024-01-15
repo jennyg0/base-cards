@@ -65,6 +65,14 @@ const NFTGallery = () => {
     }
   }, [tokenIdData]);
 
+  function shortenAddress(address: string) {
+    if (!address) return 'No address';
+    const match = address.match(/^0x[a-fA-F0-9]{40}$/);
+    if (!match) return 'Invalid address';
+
+    return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+  }
+
   useEffect(() => {
     const fetchMetadata = async () => {
       if (tokenUriData && typeof tokenUriData === 'string') {
@@ -119,9 +127,11 @@ const NFTGallery = () => {
                       />
                     </figure>
                   </div>
-                  <div className={`${styles.cardBack} rounded-lg bg-blue-100 p-4 shadow-lg`}>
-                    <h2 className="card-title">From: {nft.metadata.sender}</h2>
-                    <p>{nft.metadata.attributes[0].value}</p>
+                  <div
+                    className={`${styles.cardBack} rounded-lg bg-white p-4 text-neutral-900 shadow-lg`}
+                  >
+                    <h2>{nft.metadata.attributes[0].value}</h2>
+                    <p>From: {shortenAddress(nft.metadata.sender)}</p>
                   </div>
                 </div>
               </div>
