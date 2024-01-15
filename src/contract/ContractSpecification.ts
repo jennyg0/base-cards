@@ -27,7 +27,11 @@ export const contract: ContractSpecification = {
     },
     [localhost.id]: {
       chain: localhost,
-      address: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+      address: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
+    },
+    [baseGoerli.id]: {
+      chain: baseGoerli,
+      address: '0x2D1fca30a0D23a24c966606e66BC8134f8980168',
     },
     // more chains for this contract go here
   },

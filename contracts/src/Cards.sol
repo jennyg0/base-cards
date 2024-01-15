@@ -8,7 +8,9 @@ import '@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol';
 contract Cards is ERC721, ERC721Enumerable, ERC721URIStorage {
   uint256 private tokenIdCount;
 
-  constructor() ERC721('NftyCards', 'NFTY') {}
+  constructor() ERC721('NftyCards', 'NFTY') {
+    tokenIdCount = 0;
+  }
 
   function mintCard(string memory _tokenURI, address recipient) public payable returns (uint256) {
     tokenIdCount++;
