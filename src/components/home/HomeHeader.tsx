@@ -7,17 +7,16 @@ export default function HomeHeader() {
     <div className={styles.HomeHeader}>
       <div className={styles.HomeHeaderGradient} />
       <Header />
-      <div className="flex flex-col items-center justify-center">
+      <div className="mb-40 flex flex-col items-center justify-center">
         <h1 className={clsx(styles.HomeHeaderHeadline, 'font-robotoMono')}>
-          BUILD
+          NFTY
           <br />
-          ONCHAIN
-          <br />
-          APPS
+          CARDS
         </h1>
         <p className={styles.HomeHeaderParagraph}>
-          Accelerate your web3 creativity with the <br />
-          Build Onchain Apps Toolkit.
+          send a greeting card with a personal message
+          <br />
+          to all your frens!
         </p>
       </div>
       <div className={styles.HomeHeaderWaves}>

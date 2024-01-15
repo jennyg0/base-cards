@@ -11,7 +11,13 @@
   left: 0;
   width: 100vw;
   height: 110vh;
-  background: linear-gradient(180deg, #ff5800 0%, #cb59ab 100%, #ea36b8 100%);
+  /* background: linear-gradient(180deg, #2600ff 0%, #9059cb 50%, #ea36b8 100%); */
+  background: linear-gradient(135deg, #ff5800 0%, #cb59ab 50%, #ea36b8 100%);
+  /* 
+  background: linear-gradient(135deg, #acb6e5 0%, #86fde8 100%); */
+  /* background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  background: linear-gradient(135deg, #fad0c4 0%, #ffd1ff 100%);
+  background: linear-gradient(135deg, #e6dada 0%, #274046 100%); */
 }
 
 .HomeHeaderHeadline {

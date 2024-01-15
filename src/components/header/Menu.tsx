@@ -17,7 +17,7 @@ function Menu() {
     <>
       <div className="flex h-8 items-center justify-start gap-4">
         <NextLink href="/" passHref className="relative h-8 w-8">
-          <div className={styles.MenuCircleImage} />
+          <img src="logo.png" className={styles.MenuCircleImage} />
         </NextLink>
         <NextLink
           href="/"
