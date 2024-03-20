@@ -113,24 +113,24 @@ const NFTGallery = () => {
   return (
     <>
       {isMounted && isConnected ? (
-        <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 p-6 pl-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {nfts ? (
             nfts.map((nft, index) => (
               <div key={index} className={`${styles.card}`}>
                 <div className={`${styles.cardInner}`}>
-                  <div className={`${styles.cardFront} rounded-lg bg-white p-4 shadow-lg`}>
+                  <div className={`${styles.cardFront} rounded-[50px] shadow-lg`}>
                     <figure>
                       <img
                         src={nft.metadata.image}
                         alt={`NFT ${index + 1}`}
-                        className="rounded-xl"
+                        className="rounded-[50px]"
                       />
                     </figure>
                   </div>
                   <div
-                    className={`${styles.cardBack} rounded-lg bg-white p-4 text-neutral-900 shadow-lg`}
+                    className={`${styles.cardBack} rounded-[50px] bg-white p-6 text-neutral-900 shadow-lg`}
                   >
-                    <h2>{nft.metadata.attributes[0].value}</h2>
+                    <h2 className="text-l pb-4">{nft.metadata.attributes[0].value}</h2>
                     <p>From: {shortenAddress(nft.metadata.sender)}</p>
                   </div>
                 </div>
