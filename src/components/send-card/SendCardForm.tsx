@@ -200,7 +200,7 @@ const SendCardForm: React.FC<SendCardFormProps> = ({ selectedCard }) => {
                     {loadingTransaction ? (
                       <>
                         <svg
-                          className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
+                          className="-ml-1 mr-3 h-5 w-5 animate-spin text-neutral-900"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
